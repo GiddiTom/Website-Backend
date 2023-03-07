@@ -37,10 +37,6 @@ package Backand.Fahrradverlei.entities;
 		@NotNull
 		private Date apprxReturnDate;
 		
-		@Column
-		@NotNull
-		private Fahrrad Fahrrad;
-		
 		@ManyToOne(fetch=FetchType.LAZY)
 		@NotFound(action=NotFoundAction.IGNORE)
 		@JoinColumn(name = "fahrrad_id", referencedColumnName = "id")
@@ -55,9 +51,9 @@ package Backand.Fahrradverlei.entities;
 			
 		}
 
-		public Booking(UUID id, @NotNull Date bookingDate, @NotNull Date apprxReturnDate, Fahrrad vo, User user) {
+		public Booking(@NotNull Date bookingDate, @NotNull Date apprxReturnDate, Fahrrad vo, User user) {
 			super();
-			this.id = id;
+			
 			this.bookingDate = bookingDate;
 			this.apprxReturnDate = apprxReturnDate;
 			this.vo = vo;

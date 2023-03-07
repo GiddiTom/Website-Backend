@@ -15,7 +15,7 @@ package Backand.Fahrradverlei.entities;
 	
 
 	@Entity
-	@Table(name="Fahrrad")
+	@Table(name="fahrrad")
 	public class Fahrrad {
 		
 		@Id
@@ -35,7 +35,7 @@ package Backand.Fahrradverlei.entities;
 			
 		}
 
-		public Fahrrad(@NotNull String model,@NotNull int amount ) {
+		public Fahrrad( String model, int amount ) {
 			super();
 			this.model = model;
 			this.price = amount;
@@ -50,7 +50,7 @@ package Backand.Fahrradverlei.entities;
 			this.id = id;
 		}
 		
-		public String getModel(String model) {
+		public String getModel() {
 			return model;
 		}
 

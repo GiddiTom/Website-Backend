@@ -12,12 +12,12 @@ import javax.persistence.Table;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name="User")
+@Table(name="user")
 public class User {
 	
 	@Id
 	@Column(columnDefinition= "VARBINARY(16)")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	
 	@Column

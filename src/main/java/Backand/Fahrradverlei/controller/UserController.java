@@ -85,8 +85,6 @@ public class UserController {
 		
 		
 	
-		
-		
 		try {
 			@SuppressWarnings("unused")
 			User user = userRepository.findByEmail(uro.email).get();
