@@ -81,9 +81,10 @@ public class FahrradController {
 		
 		Fahrrad toAdd = new Fahrrad();
 		
-		Standort standort =  standortrepository.findById(uro.standortid).get();
+		Standort standort;
+		if(uro.standortid == null) standort = null;
+		else standort =  standortrepository.findById(uro.standortid).get();
 		 
-		
 		toAdd.setModel(uro.model);
 		toAdd.setPrice(uro.price);
 		toAdd.setStandort(standort);

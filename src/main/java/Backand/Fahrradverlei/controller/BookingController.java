@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import Backand.Fahrradverlei.dao.BookingConfigurationsObject;
 import Backand.Fahrradverlei.entities.Booking;
 import Backand.Fahrradverlei.entities.Fahrrad;
+import Backand.Fahrradverlei.entities.Standort;
 import Backand.Fahrradverlei.entities.User;
 import Backand.Fahrradverlei.repositories.BookingRepository;
 import Backand.Fahrradverlei.repositories.FahrradRepository;
+import Backand.Fahrradverlei.repositories.StandortRepository;
 import Backand.Fahrradverlei.repositories.UserRepository;
 
 @Controller
@@ -33,13 +35,17 @@ import Backand.Fahrradverlei.repositories.UserRepository;
 public class BookingController {
 	
 	@Autowired
-	BookingRepository bookingRepositroy;
+	BookingRepository bookingrepository;
 	
 	@Autowired
 	UserRepository userRepository;
 	
 	@Autowired
 	FahrradRepository fahrradrepository;
+	
+	@Autowired
+	StandortRepository standortrepository;
+	
 	
 	
 	@PostMapping("")
@@ -50,6 +56,8 @@ public class BookingController {
 		
 			try {
 				
+				vo.setStandort(null);
+				fahrradrepository.save(vo);
 				Booking toAdd = new Booking();
 				
 				toAdd.setApprxReturnDate(uro.apprxReturnDate);
@@ -57,7 +65,7 @@ public class BookingController {
 				toAdd.setUser(user);
 				toAdd.setVo(vo);
 				
-				return new ResponseEntity<Object>(bookingRepositroy.save(toAdd), HttpStatus.CREATED);
+				return new ResponseEntity<Object>(bookingrepository.save(toAdd), HttpStatus.CREATED);
 				
 			} catch(Exception e) {
 				
@@ -68,13 +76,13 @@ public class BookingController {
 
 	@GetMapping("")
 	public ResponseEntity<Object> getAll(){
-		return new ResponseEntity<Object>(bookingRepositroy.findAll(), HttpStatus.OK);
+		return new ResponseEntity<Object>(bookingrepository.findAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getSpecific(@PathVariable UUID id){
 		try {
-			return new ResponseEntity<Object>(bookingRepositroy.findById(id).get(), HttpStatus.OK);
+			return new ResponseEntity<Object>(bookingrepository.findById(id).get(), HttpStatus.OK);
 		}
 		catch(NoSuchElementException e) {
 			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
@@ -86,8 +94,8 @@ public class BookingController {
 	public ResponseEntity<Object> delete(@PathVariable UUID id){
 		
 		try {
-			Optional<Booking> o = bookingRepositroy.findById(id);
-			bookingRepositroy.deleteById(o.get().getId());
+			Optional<Booking> o = bookingrepository.findById(id);
+			bookingrepository.deleteById(o.get().getId());
 			return new ResponseEntity<>(id, HttpStatus.OK);
 		} catch (NoSuchElementException nSE) {
 			return new ResponseEntity<Object>("Buchung gibts nicht", HttpStatus.NOT_FOUND);
@@ -98,15 +106,33 @@ public class BookingController {
 		public ResponseEntity<Object> addBooking(@PathVariable UUID id){
 			
 			try {
-				Optional<Booking> o = bookingRepositroy.findById(id);
+				Optional<Booking> o = bookingrepository.findById(id);
 				Booking b = o.get();
-				bookingRepositroy.save(b);
+				bookingrepository.save(b);
 				return new ResponseEntity<>(id, HttpStatus.OK);
 			} catch (NoSuchElementException nSE) {
 				return new ResponseEntity<Object>("Buchung gibts nicht", HttpStatus.NOT_FOUND);
 			}
 			
 		}
+
+	@GetMapping("/return/{id}/{rueckgabestandortid}")
+	public ResponseEntity<Object> rueckgabeFahrrad(@PathVariable UUID id, @PathVariable UUID rueckgabestandortid ){
+		try {
+			Booking booking = bookingrepository.findById(id).get();
+			Fahrrad fahrrad = booking.getVo();
+			Standort standort = standortrepository.findById(rueckgabestandortid).get();
+			
+			fahrrad.setStandort(standort);
+			fahrradrepository.save(fahrrad);
+			
+			// Hier noch einbauen, dass die Buchung deaktiviert werden soll
+			return new ResponseEntity<Object>(bookingrepository.save(booking), HttpStatus.OK);
+		}
+		catch(NoSuchElementException e) {
+			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	}
 
