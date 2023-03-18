@@ -12,10 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Backand.Fahrradverlei.dao.UserLoginObject;
 import Backand.Fahrradverlei.dao.UserRegistrationObject;
 import Backand.Fahrradverlei.entities.User;
 import Backand.Fahrradverlei.repositories.BookingRepository;
@@ -81,6 +83,24 @@ public class UserInteractionController {
 		toAdd.setSignatur(signatur);
 	
 		return new ResponseEntity<Object>(userRepository.save(toAdd), HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/login")
+	public ResponseEntity<Object> login(@RequestBody UserLoginObject ulo){
+		
+		Optional<User> userSearch = userRepository.findByEmail(ulo.email);
+		User u = null;
+		try {
+			u = userSearch.get();
+			if(!(u.getPassword().equals(ulo.password))) {
+				return new ResponseEntity<Object>("Falsches Passwort", HttpStatus.UNAUTHORIZED);
+			}
+		} catch(NoSuchElementException e) {
+			return new ResponseEntity<Object>("Kein Benutzer mit dieser Email gefunden", HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<Object>(u, HttpStatus.OK);
+		
 	}
 
 }
