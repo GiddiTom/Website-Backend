@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.lang.NonNull;
@@ -48,12 +49,16 @@ public class User {
 	@NonNull
 	private String city;
 	
+	@Column     
+	@Lob     
+	private byte[] Signatur;
+	
 	public User() {
 		
 	}
 	
 	public User(String name, String firstName, String email, String password,
-			String street, String number, String city) {
+			String street, String number, String city, byte[] Signatur) {
 		super();
 		this.name = name;
 		this.firstName = firstName;
@@ -62,6 +67,7 @@ public class User {
 		this.street = street;
 		this.number = number;
 		this.city = city;
+		this.Signatur = Signatur;
 	}
 
 	public String getPassword() {
@@ -127,4 +133,13 @@ public class User {
 	public void setCity(String city) {
 		this.city = city;
 	}
+
+	public byte[] getSignatur() {
+		return Signatur;
+	}
+
+	public void setSignatur(byte[] signatur) {
+		Signatur = signatur;
+	}
+	
 }

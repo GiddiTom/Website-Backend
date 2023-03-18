@@ -37,6 +37,10 @@ import org.hibernate.annotations.NotFoundAction;
 		@NotNull
 		private int price;
 		
+		@Column
+		@NotNull
+		private String pictureLink;
+		
 		@ManyToOne(fetch=FetchType.LAZY)
 		@NotFound(action=NotFoundAction.IGNORE)
 		@JoinColumn(name = "standort_id", referencedColumnName = "id")
@@ -50,12 +54,13 @@ import org.hibernate.annotations.NotFoundAction;
 
 
 
-		public Fahrrad(UUID id, @NotNull String model, @NotNull int price, Standort standort) {
+		public Fahrrad(UUID id, @NotNull String model, @NotNull int price, Standort standort, String pictureLink ) {
 			super();
 			this.id = id;
 			this.model = model;
 			this.price = price;
 			this.standort = standort;
+			this.pictureLink = pictureLink;
 		}
 
 
@@ -104,6 +109,18 @@ import org.hibernate.annotations.NotFoundAction;
 
 		public void setStandort(Standort standort) {
 			this.standort = standort;
+		}
+
+
+
+		public String getPictureLink() {
+			return pictureLink;
+		}
+
+
+
+		public void setPictureLink(String pictureLink) {
+			this.pictureLink = pictureLink;
 		}
 
 		

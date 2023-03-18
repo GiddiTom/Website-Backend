@@ -63,6 +63,7 @@ public class StandortController {
 			u.setName(uco.name);
 			u.setLongitude(uco.longitude);
 			u.setLatitude(uco.latitude);
+			u.setPictureLink(uco.pictureLink);
 		
 			standortrepository.save(u);
 			return new ResponseEntity<Object>(u, HttpStatus.OK);
@@ -82,6 +83,7 @@ public class StandortController {
 		toAdd.setName(uro.name);
 		toAdd.setLongitude(uro.longitude);
 		toAdd.setLatitude(uro.latitude);
+		toAdd.setPictureLink(uro.pictureLink);
 		
 		return new ResponseEntity<Object>(standortrepository.save(toAdd), HttpStatus.CREATED);
 	}

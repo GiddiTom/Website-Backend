@@ -65,6 +65,9 @@ public class UserInteractionController {
 			return new ResponseEntity<Object>("User gibts schon", HttpStatus.NOT_ACCEPTABLE);
 		}
 		
+		byte[] signatur;
+		if(uro.Signatur == null) signatur = null;
+		else signatur = uro.Signatur;
 		User toAdd = new User();
 		
 		
@@ -75,6 +78,7 @@ public class UserInteractionController {
 		toAdd.setStreet(uro.street);
 		toAdd.setNumber(uro.number);
 		toAdd.setCity(uro.city);
+		toAdd.setSignatur(signatur);
 	
 		return new ResponseEntity<Object>(userRepository.save(toAdd), HttpStatus.CREATED);
 	}

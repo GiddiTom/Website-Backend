@@ -66,6 +66,7 @@ public class FahrradController {
 			u.setModel(uco.model);
 			u.setPrice(uco.price);
 			u.setStandort(standort);
+			u.setPictureLink(uco.pictureLink);
 			
 			
 			fahrradrepository.save(u);
@@ -88,6 +89,7 @@ public class FahrradController {
 		toAdd.setModel(uro.model);
 		toAdd.setPrice(uro.price);
 		toAdd.setStandort(standort);
+		toAdd.setPictureLink(uro.pictureLink);
 		
 		return new ResponseEntity<Object>(fahrradrepository.save(toAdd), HttpStatus.CREATED);
 	}

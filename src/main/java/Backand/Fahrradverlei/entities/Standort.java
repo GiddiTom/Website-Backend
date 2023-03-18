@@ -35,19 +35,24 @@ public class Standort {
 	@NotNull
 	private double latitude;
 	
+	@Column
+	@NotNull
+	private String pictureLink;
+	
 	
 	public Standort() {
 		
 	}
 
 	public Standort(UUID id, @NotNull String name, @NotNull String adresse, @NotNull double longitude,
-			@NotNull double latitude) {
+			@NotNull double latitude, String pictureLink) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.adresse = adresse;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.pictureLink = pictureLink;
 	}
 
 
@@ -99,5 +104,14 @@ public class Standort {
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
+
+	public String getPictureLink() {
+		return pictureLink;
+	}
+
+	public void setPictureLink(String pictureLink) {
+		this.pictureLink = pictureLink;
+	}
+	
 	
 }

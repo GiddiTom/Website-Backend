@@ -46,19 +46,40 @@ package Backand.Fahrradverlei.entities;
 		@NotFound(action=NotFoundAction.IGNORE)
 		@JoinColumn(name = "user_id", referencedColumnName = "id")
 		private User user;
+	
+		@ManyToOne(fetch=FetchType.LAZY)
+		@NotFound(action=NotFoundAction.IGNORE)
+		@JoinColumn(name = "startid", referencedColumnName = "id")
+		private Standort Start;
+		
+		@ManyToOne(fetch=FetchType.LAZY)
+		@NotFound(action=NotFoundAction.IGNORE)
+		@JoinColumn(name = "endeid", referencedColumnName = "id")
+		private Standort Ende;
+		
+		
+		@Column
+		@NotNull
+		private boolean aktiv;
+		
 		
 		public Booking() {
 			
 		}
 
-		public Booking(@NotNull Date bookingDate, @NotNull Date apprxReturnDate, Fahrrad vo, User user) {
+		public Booking(@NotNull Date bookingDate, @NotNull Date apprxReturnDate, Fahrrad vo, User user, boolean aktivierend, Standort Start, Standort Ende) {
 			super();
 			
 			this.bookingDate = bookingDate;
 			this.apprxReturnDate = apprxReturnDate;
 			this.vo = vo;
 			this.user = user;
+			this.Start = Start;
+			this.Ende = Ende;
+			this.aktiv = aktivierend;
 		}
+
+		
 
 		public UUID getId() {
 			return id;
@@ -100,6 +121,29 @@ package Backand.Fahrradverlei.entities;
 			this.user = user;
 		}
 
+		public boolean isAktiv() {
+			return aktiv;
+		}
+
+		public void setAktiv(boolean aktiv) {
+			this.aktiv = aktiv;
+		}
+
+		public Standort getStart() {
+			return Start;
+		}
+
+		public void setStart(Standort start) {
+			Start = start;
+		}
+
+		public Standort getEnde() {
+			return Ende;
+		}
+
+		public void setEnde(Standort ende) {
+			Ende = ende;
+		}
 	
 		
 

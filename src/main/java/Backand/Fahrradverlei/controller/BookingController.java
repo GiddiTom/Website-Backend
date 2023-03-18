@@ -53,6 +53,8 @@ public class BookingController {
 		
 		User user = userRepository.findById(uro.userID).get();
 		Fahrrad vo = fahrradrepository.findById(uro.fahrradID).get();
+		Standort Start = vo.getStandort();
+		
 		
 			try {
 				
@@ -64,6 +66,9 @@ public class BookingController {
 				toAdd.setBookingDate(uro.bookingDate);
 				toAdd.setUser(user);
 				toAdd.setVo(vo);
+				toAdd.setStart(Start);
+				toAdd.setEnde(null);
+				toAdd.setAktiv(true);
 				
 				return new ResponseEntity<Object>(bookingrepository.save(toAdd), HttpStatus.CREATED);
 				
@@ -102,20 +107,6 @@ public class BookingController {
 		}
 	}
 	
-	@PutMapping("/return/{id}")
-		public ResponseEntity<Object> addBooking(@PathVariable UUID id){
-			
-			try {
-				Optional<Booking> o = bookingrepository.findById(id);
-				Booking b = o.get();
-				bookingrepository.save(b);
-				return new ResponseEntity<>(id, HttpStatus.OK);
-			} catch (NoSuchElementException nSE) {
-				return new ResponseEntity<Object>("Buchung gibts nicht", HttpStatus.NOT_FOUND);
-			}
-			
-		}
-
 	@GetMapping("/return/{id}/{rueckgabestandortid}")
 	public ResponseEntity<Object> rueckgabeFahrrad(@PathVariable UUID id, @PathVariable UUID rueckgabestandortid ){
 		try {
@@ -125,8 +116,9 @@ public class BookingController {
 			
 			fahrrad.setStandort(standort);
 			fahrradrepository.save(fahrrad);
+			booking.setEnde(standort);
+			booking.setAktiv(false);
 			
-			// Hier noch einbauen, dass die Buchung deaktiviert werden soll
 			return new ResponseEntity<Object>(bookingrepository.save(booking), HttpStatus.OK);
 		}
 		catch(NoSuchElementException e) {

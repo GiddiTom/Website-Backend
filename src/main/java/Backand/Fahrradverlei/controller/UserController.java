@@ -63,6 +63,7 @@ public class UserController {
 			u.setNumber(uco.number);
 			u.setStreet(uco.street);
 			u.setCity(uco.city);
+			u.setSignatur(uco.Signatur);
 			
 			userRepository.save(u);
 			return new ResponseEntity<Object>(u, HttpStatus.OK);
