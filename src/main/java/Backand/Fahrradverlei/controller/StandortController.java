@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Backand.Fahrradverlei.dao.StandortConfigurationsObject;
 import Backand.Fahrradverlei.entities.Standort;
+import Backand.Fahrradverlei.repositories.FahrradRepository;
 import Backand.Fahrradverlei.repositories.StandortRepository;
 
 @RestController
@@ -28,6 +29,9 @@ public class StandortController {
 	
 	@Autowired
 	private StandortRepository standortrepository;
+	
+	@Autowired
+	private FahrradRepository fahrradrepository;
 		
 	@GetMapping("")	
 	public ResponseEntity<Iterable<Standort>> getStandorte(){
@@ -92,6 +96,18 @@ public class StandortController {
 			return new ResponseEntity<>(id, HttpStatus.OK);
 		} catch (NoSuchElementException nSE) {
 			return new ResponseEntity<Object>("Standort nicht gefunden", HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/{id}/fahrraeder")
+	public ResponseEntity<Object> getFahrraeder(@PathVariable UUID id){
+		Optional<Standort> u = standortrepository.findById(id);
+		try {
+			Standort standort =u.get();
+			return new ResponseEntity<Object>(fahrradrepository.findAllByStandort(standort).get(), HttpStatus.OK);
+		}
+		catch(NoSuchElementException e) {
+			return new ResponseEntity<Object>("Gibt keine Buchungen bro", HttpStatus.NOT_FOUND);
 		}
 	}
 

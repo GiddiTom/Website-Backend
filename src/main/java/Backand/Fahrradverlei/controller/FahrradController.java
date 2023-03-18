@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import Backand.Fahrradverlei.dao.FahrradConfigurationsObject;
 import Backand.Fahrradverlei.entities.Fahrrad;
+import Backand.Fahrradverlei.entities.Standort;
 import Backand.Fahrradverlei.repositories.FahrradRepository;
+import Backand.Fahrradverlei.repositories.StandortRepository;
 
 
 
@@ -31,6 +33,9 @@ public class FahrradController {
 	
 	@Autowired
 	private FahrradRepository fahrradrepository;
+	
+	@Autowired
+	private StandortRepository standortrepository;
 		
 	@GetMapping("")	
 	public ResponseEntity<Iterable<Fahrrad>> getFahrrader(){
@@ -54,12 +59,13 @@ public class FahrradController {
 		
 		Optional<Fahrrad> toUpdate = fahrradrepository.findById(id);
 		Fahrrad u = new Fahrrad();
-		
+		Standort standort =  standortrepository.findById(uco.standortid).get();
 		try {
 			UUID currentFahrrad = toUpdate.get().getId();
 			u.setId(currentFahrrad);
 			u.setModel(uco.model);
 			u.setPrice(uco.price);
+			u.setStandort(standort);
 			
 			
 			fahrradrepository.save(u);
@@ -75,9 +81,12 @@ public class FahrradController {
 		
 		Fahrrad toAdd = new Fahrrad();
 		
+		Standort standort =  standortrepository.findById(uro.standortid).get();
+		 
 		
 		toAdd.setModel(uro.model);
 		toAdd.setPrice(uro.price);
+		toAdd.setStandort(standort);
 		
 		return new ResponseEntity<Object>(fahrradrepository.save(toAdd), HttpStatus.CREATED);
 	}
