@@ -64,7 +64,6 @@ public class FahrradController {
 			UUID currentFahrrad = toUpdate.get().getId();
 			u.setId(currentFahrrad);
 			u.setModel(uco.model);
-			u.setPrice(uco.price);
 			u.setStandort(standort);
 			u.setPictureLink(uco.pictureLink);
 			
@@ -87,7 +86,6 @@ public class FahrradController {
 		else standort =  standortrepository.findById(uro.standortid).get();
 		 
 		toAdd.setModel(uro.model);
-		toAdd.setPrice(uro.price);
 		toAdd.setStandort(standort);
 		toAdd.setPictureLink(uro.pictureLink);
 		

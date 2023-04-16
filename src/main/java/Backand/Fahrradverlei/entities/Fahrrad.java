@@ -33,9 +33,6 @@ import org.hibernate.annotations.NotFoundAction;
 		@NotNull
 		private String model;
 
-		@Column
-		@NotNull
-		private int price;
 		
 		@Column
 		@NotNull
@@ -54,11 +51,10 @@ import org.hibernate.annotations.NotFoundAction;
 
 
 
-		public Fahrrad(UUID id, @NotNull String model, @NotNull int price, Standort standort, String pictureLink ) {
+		public Fahrrad(UUID id, @NotNull String model, Standort standort, String pictureLink ) {
 			super();
 			this.id = id;
 			this.model = model;
-			this.price = price;
 			this.standort = standort;
 			this.pictureLink = pictureLink;
 		}
@@ -87,20 +83,7 @@ import org.hibernate.annotations.NotFoundAction;
 			this.model = model;
 		}
 
-
-
-		public int getPrice() {
-			return price;
-		}
-
-
-
-		public void setPrice(int price) {
-			this.price = price;
-		}
-
-
-
+		
 		public Standort getStandort() {
 			return standort;
 		}
